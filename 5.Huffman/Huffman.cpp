@@ -1,11 +1,12 @@
 #include "Huffman.h"
 #include <iostream>
+using namespace std;
 
-static std::string ptrToStr(TreeNode* node) {
-    return std::to_string(reinterpret_cast<uint64_t>(node));
+static string ptrToStr(TreeNode* node) {
+    return to_string(reinterpret_cast<uint64_t>(node));
 }
 
-static TreeNode* strToPtr(const std::string& str) {
+static TreeNode* strToPtr(const string& str) {
     if (str.empty()) return nullptr;
     uint64_t val = 0;
     for (size_t i = 0; i < str.length(); ++i) {
@@ -15,7 +16,7 @@ static TreeNode* strToPtr(const std::string& str) {
     return reinterpret_cast<TreeNode*>(val);
 }
 
-static void pushNode(SingleList& list, const std::string& val) {
+static void pushNode(SingleList& list, const string& val) {
     if (list.head == nullptr) {
         list.head = new SNode{val, nullptr};
     } else if (list.head->data.empty() && list.head->next == nullptr) {
@@ -69,7 +70,7 @@ static TreeNode* extractMin(SingleList& list) {
     return minNode;
 }
 
-TreeNode* buildHuffmanTree(const std::string& text) {
+TreeNode* buildHuffmanTree(const string& text) {
     if (text.empty()) return nullptr;
 
     SingleList freeNodes;
@@ -103,7 +104,7 @@ TreeNode* buildHuffmanTree(const std::string& text) {
                 TreeNode* n1 = strToPtr(curr->data);
                 TreeNode* n2 = strToPtr(curr->next->data);
                 if (n1 != nullptr && n2 != nullptr && n1->weight < n2->weight) {
-                    std::string temp = curr->data;
+                    string temp = curr->data;
                     curr->data = curr->next->data;
                     curr->next->data = temp;
                     swapped = true;
@@ -128,12 +129,12 @@ TreeNode* buildHuffmanTree(const std::string& text) {
     return root;
 }
 
-void generateCodes(TreeNode* root, const std::string& currentCode, SingleList& table) {
+void generateCodes(TreeNode* root, const string& currentCode, SingleList& table) {
     if (!root) return;
 
     if (!root->left && !root->right) {
-        std::string code = currentCode.empty() ? "0" : currentCode;
-        std::string entry = "";
+        string code = currentCode.empty() ? "0" : currentCode;
+        string entry = "";
         entry += root->symbol;
         entry += code;
         pushNode(table, entry);
@@ -144,8 +145,8 @@ void generateCodes(TreeNode* root, const std::string& currentCode, SingleList& t
     generateCodes(root->right, currentCode + "1", table);
 }
 
-std::string encode(const std::string& text, const SingleList& table) {
-    std::string encodedString = "";
+string encode(const string& text, const SingleList& table) {
+    string encodedString = "";
     for (size_t i = 0; i < text.length(); ++i) {
         SNode* curr = table.head;
         while (curr != nullptr) {
@@ -159,10 +160,10 @@ std::string encode(const std::string& text, const SingleList& table) {
     return encodedString;
 }
 
-std::string decode(const std::string& binaryCode, TreeNode* root) {
+string decode(const string& binaryCode, TreeNode* root) {
     if (!root) return "";
 
-    std::string decodedString = "";
+    string decodedString = "";
 
     if (!root->left && !root->right) {
         for (size_t i = 0; i < binaryCode.length(); ++i) {
@@ -189,11 +190,11 @@ std::string decode(const std::string& binaryCode, TreeNode* root) {
 }
 
 void printCodeTable(const SingleList& table) {
-    std::cout << "Таблица:\n";
+    cout << "Таблица:\n";
     SNode* curr = table.head;
     while (curr != nullptr) {
         if (curr->data.length() >= 2) {
-            std::cout << curr->data[0] << " : " << curr->data.substr(1) << "\n";
+            cout << curr->data[0] << " : " << curr->data.substr(1) << "\n";
         }
         curr = curr->next;
     }

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "lfu.h"
+#include "../structs/lfu.h"
 
 using namespace std;
 

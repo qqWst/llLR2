@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "../2. Set/set.h"
+#include "../structs/set.h"
 
 using namespace std;
 
@@ -17,12 +17,9 @@ int solveTurtles(int n) {
 
         string statement = to_string(a) + " " + to_string(b);
 
-        if (!setAt(truthfulTurtles, statement)) {
+        if (!setAt(truthfulTurtles, statement)
+           && !(a < 0 || b < 0 || a + b + 1 != n)) {
             setAdd(truthfulTurtles, statement);
-        }
-
-        if (a < 0 || b < 0 || a + b + 1 != n) {
-            setDel(truthfulTurtles, statement);
         }
     }
 

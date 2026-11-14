@@ -3,9 +3,10 @@
 #ifdef _WIN32
 #include <windows.h>
 #endif
-#include "structs/tree.h"
-#include "structs/flist.h"
+#include "../structs/tree.h"
+#include "../structs/flist.h"
 #include "Huffman.h"
+using namespace std;
 
 int main() {
 #ifdef _WIN32
@@ -13,9 +14,9 @@ int main() {
     SetConsoleOutputCP(CP_UTF8);
 #endif
 
-    std::string inputString;
-    std::cout << "Ввод: ";
-    std::getline(std::cin, inputString);
+    string inputString;
+    cout << "Ввод: ";
+    getline(cin, inputString);
 
     if (inputString.empty()) {
         return 1;
@@ -27,13 +28,13 @@ int main() {
     createSList(codeTable);
     generateCodes(huffmanTreeRoot, "", codeTable);
 
-    std::string encodedStr = encode(inputString, codeTable);
-    std::cout << "Вывод: " << encodedStr << "\n";
+    string encodedStr = encode(inputString, codeTable);
+    cout << "Вывод: " << encodedStr << "\n";
 
     printCodeTable(codeTable);
 
-    std::string decodedStr = decode(encodedStr, huffmanTreeRoot);
-    std::cout << "Восстановленная строка: " << decodedStr << "\n";
+    string decodedStr = decode(encodedStr, huffmanTreeRoot);
+    cout << "Восстановленная строка: " << decodedStr << "\n";
 
     killSList(codeTable);
     deleteTree(huffmanTreeRoot);

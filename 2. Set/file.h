@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "set.h"
+#include "../structs/set.h"
 
 void printHelp();
 

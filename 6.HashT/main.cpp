@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "hash_table.h"
+#include "../structs/hash_table.h"
 
 using namespace std;
 

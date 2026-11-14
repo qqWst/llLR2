@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
-#include "array.h"
+#include "../structs/array.h"
+#include "histogram.h"
 using namespace std;
 
 int main() {

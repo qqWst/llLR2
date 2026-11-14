@@ -2,7 +2,7 @@
 #include <string>
 #include <sstream>
 #include "file.h"
-#include "set.h"
+#include "../structs/set.h"
 
 using namespace std;
 
