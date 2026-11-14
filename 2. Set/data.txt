@@ -1,0 +1,3 @@
+SET s1 2
+banana
+apple

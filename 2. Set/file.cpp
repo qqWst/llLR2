@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <string>
 
 using namespace std;
 
@@ -48,8 +49,8 @@ void SaveAll() {
         f << "SET " << sets.items[i].name << " " << s->size << "\n";
         if (s->buckets != nullptr) {
             for (size_t j = 0; j < s->capacity; ++j) {
-                for (SetNode* n = s->buckets[j]; n != nullptr; n = n->next) {
-                    f << n->value << "\n";
+                for (SNode* n = s->buckets[j].head; n != nullptr; n = n->next) {
+                    f << n->data << "\n";
                 }
             }
         }
@@ -59,19 +60,33 @@ void SaveAll() {
 void LoadAll() {
     ifstream f(FILE_NAME);
     if (!f) return;
-    string tag, name;
-    int count;
 
-    while (f >> tag >> name) {
-        if (f >> count) {
-            f.ignore();
-            if (tag == "SET") {
-                Set* set = fetchSet(name);
-                for (int i = 0; i < count; ++i) {
-                    string s; getline(f, s);
-                    setAdd(*set, s);
-                }
-            }
+    string tag;
+    while (f >> tag) {
+        if (tag != "SET") {
+            // пропускаем неизвестную строку целиком
+            string rest;
+            getline(f, rest);
+            continue;
+        }
+
+        string name;
+        int count = 0;
+        if (!(f >> name >> count)) break;
+
+        // сброс до конца строки (учитывает \r\n)
+        string dummy;
+        getline(f, dummy);
+
+        Set* set = fetchSet(name);
+        for (int i = 0; i < count; ++i) {
+            string value;
+            if (!getline(f, value)) break;
+            // удаляем возможный \r в конце (Windows)
+            if (!value.empty() && value.back() == '\r')
+                value.pop_back();
+            if (!value.empty())
+                setAdd(*set, value);
         }
     }
 }

@@ -1,5 +1,6 @@
 #include "Huffman.h"
 #include <iostream>
+#include <cstdint>
 using namespace std;
 
 static string ptrToStr(TreeNode* node) {

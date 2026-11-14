@@ -5,7 +5,7 @@
 using namespace std;
 
 int main() {
-    system("chcp 65001 > nul");
+    //system("chcp 65001 > nul");
 
     string expr;
     cout << "Введите логическое выражение: ";
